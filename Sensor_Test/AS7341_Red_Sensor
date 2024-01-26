@@ -1,0 +1,38 @@
+#include <Adafruit_AS7341.h>
+
+Adafruit_AS7341 as7341;
+
+void setup() {
+  Serial.begin(115200);
+
+  while(!Serial){
+    delay(1);
+  }
+  // put your setup code here, to run once:
+  if (!as7341.begin()){
+    Serial.println("Could not find AS7341");
+    while(1){
+      delay(10);
+    }
+  }
+
+  as7341.setATIME(100);
+  as7341.setATIME(999);
+  as7341.setATIME(AS7341_GAIN_256X);  
+  
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+    if (!as7341.readAllChannels()) {
+    Serial.println("Error reading all channels!");
+    return;
+  }
+
+  // Print out the red sensor value
+  Serial.println(as7341.getChannel(AS7341_CHANNEL_630nm_F7));
+
+  delay(500); // Adjust the delay as needed
+}
+
+
